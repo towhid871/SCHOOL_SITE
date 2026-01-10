@@ -1,0 +1,271 @@
+{% extends "components/base.html" %}
+
+{% block title %}Contact - University Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Contact Hero -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">Contact Us</h1>
+                    <p class="lead">
+                        Get in touch with university administration and departments
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <h2 class="fw-bold mb-4">Contact Information</h2>
+                    <p class="text-muted mb-4">
+                        We're here to help. Reach out to us for any inquiries or assistance.
+                    </p>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex mb-4">
+                            <div class="card-icon me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Main Campus Address</h5>
+                                <p class="text-muted mb-0">123 University Avenue</p>
+                                <p class="text-muted">City, State 12345, Country</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex mb-4">
+                            <div class="card-icon me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Phone Numbers</h5>
+                                <p class="text-muted mb-0">Main Office: +1 (555) 123-4567</p>
+                                <p class="text-muted">Admissions: +1 (555) 987-6543</p>
+                                <p class="text-muted">Emergency: +1 (555) 999-8888</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex">
+                            <div class="card-icon me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Email Addresses</h5>
+                                <p class="text-muted mb-0">General Inquiries: info@university.edu</p>
+                                <p class="text-muted mb-0">Admissions: admissions@university.edu</p>
+                                <p class="text-muted">Registrar: registrar@university.edu</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h5 class="fw-bold mb-3">Office Hours</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2">
+                                        <i class="fas fa-clock text-primary me-2"></i> Monday - Friday: 8:00 AM - 6:00 PM
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-clock text-primary me-2"></i> Saturday: 9:00 AM - 1:00 PM
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-clock text-primary me-2"></i> Sunday: Closed
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7">
+                    <div class="card dashboard-card">
+                        <div class="card-body p-4 p-lg-5">
+                            <h2 class="fw-bold mb-4">Send a Message</h2>
+                            <form method="post" action="{% url 'contact' %}">
+                                {% csrf_token %}
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label fw-bold">Full Name *</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label fw-bold">Email Address *</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label fw-bold">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="department" class="form-label fw-bold">Department</label>
+                                        <select class="form-select" id="department" name="department">
+                                            <option value="" selected>Select Department</option>
+                                            <option value="admissions">Admissions Office</option>
+                                            <option value="registrar">Registrar Office</option>
+                                            <option value="academic">Academic Affairs</option>
+                                            <option value="student">Student Affairs</option>
+                                            <option value="finance">Finance Department</option>
+                                            <option value="hr">Human Resources</option>
+                                            <option value="it">IT Support</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label fw-bold">Subject *</label>
+                                        <input type="text" class="form-control" id="subject" name="subject" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label fw-bold">Message *</label>
+                                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                                            <i class="fas fa-paper-plane me-2"></i> Send Message
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments Contact -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Department Contacts</h2>
+                <p class="lead text-muted">
+                    Direct contacts for specific departments
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card dashboard-card">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon mb-3">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Admissions Office</h5>
+                            <p class="text-muted small mb-2">Phone: +1 (555) 987-6543</p>
+                            <p class="text-muted small mb-2">Email: admissions@university.edu</p>
+                            <p class="text-muted small">Location: Administration Building, Room 101</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card dashboard-card">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon mb-3">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Registrar Office</h5>
+                            <p class="text-muted small mb-2">Phone: +1 (555) 123-4567 ext. 2</p>
+                            <p class="text-muted small mb-2">Email: registrar@university.edu</p>
+                            <p class="text-muted small">Location: Administration Building, Room 201</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card dashboard-card">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon mb-3">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">IT Support</h5>
+                            <p class="text-muted small mb-2">Phone: +1 (555) 123-4567 ext. 3</p>
+                            <p class="text-muted small mb-2">Email: itsupport@university.edu</p>
+                            <p class="text-muted small">Location: Technology Building, Room 301</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campus Map -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Find Our Campus</h2>
+                <p class="lead text-muted">
+                    Visit us at our main campus
+                </p>
+            </div>
+            
+            <div class="card dashboard-card overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-lg-8">
+                        <!-- Map placeholder -->
+                        <div style="height: 400px; background: linear-gradient(135deg, #1a237e, #283593); 
+                                    display: flex; align-items: center; justify-content: center; color: white;">
+                            <div class="text-center">
+                                <i class="fas fa-map-marked-alt fa-4x mb-3"></i>
+                                <h4>University Main Campus</h4>
+                                <p class="mb-0">123 University Avenue, City, State 12345</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="p-4 h-100" style="background-color: #f8f9fa;">
+                            <h5 class="fw-bold mb-3">How to Reach</h5>
+                            <h6 class="fw-bold mt-4">By Public Transport</h6>
+                            <ul class="list-unstyled text-muted mb-4">
+                                <li class="mb-1">• Bus: Routes 101, 203, 305</li>
+                                <li class="mb-1">• Metro: University Station</li>
+                                <li>• Train: Central Station (2km from campus)</li>
+                            </ul>
+                            
+                            <h6 class="fw-bold">By Car</h6>
+                            <p class="text-muted mb-0">
+                                Ample parking available in Lots A, B, and C. Visitor parking in Lot V.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Contact form handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                const requiredFields = contactForm.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields marked with *');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

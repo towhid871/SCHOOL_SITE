@@ -1,0 +1,262 @@
+{% extends "components/base.html" %}
+
+{% block title %}Members Directory - University Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Members Header -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="fw-bold mb-3">University Members Directory</h1>
+                    <p class="lead text-muted mb-0">
+                        Find faculty members, staff, and student information
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search members..." id="memberSearch">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Members Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Filters -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Filter by Role</label>
+                            <select class="form-select" id="roleFilter">
+                                <option value="all">All Roles</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="staff">Staff</option>
+                                <option value="student">Students</option>
+                                <option value="admin">Administration</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Filter by Department</label>
+                            <select class="form-select" id="deptFilter">
+                                <option value="all">All Departments</option>
+                                <option value="cs">Computer Science</option>
+                                <option value="business">Business</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="arts">Arts & Humanities</option>
+                                <option value="science">Natural Sciences</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Sort By</label>
+                            <select class="form-select" id="sortFilter">
+                                <option value="name">Name (A-Z)</option>
+                                <option value="role">Role</option>
+                                <option value="department">Department</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-outline-primary w-100" id="resetFilters">
+                                <i class="fas fa-redo me-2"></i> Reset Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Grid -->
+            <div class="row g-4" id="membersGrid">
+                {% for member in members %}
+                <div class="col-lg-4 col-md-6" data-role="{{ member.role }}" data-dept="{{ member.department }}">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body p-4 text-center">
+                            <img src="{{ member.profile_image|default:'https://via.placeholder.com/120' }}" 
+                                 class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;" 
+                                 alt="{{ member.name }}">
+                            <h5 class="card-title fw-bold mb-1">{{ member.name }}</h5>
+                            <p class="text-primary mb-2">
+                                <i class="fas fa-user-tag me-1"></i> {{ member.get_role_display }}
+                            </p>
+                            <p class="text-muted small mb-2">
+                                <i class="fas fa-graduation-cap me-1"></i> {{ member.department }}
+                            </p>
+                            <p class="text-muted small mb-3">
+                                <i class="fas fa-envelope me-1"></i> {{ member.email }}
+                            </p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button class="btn btn-outline-primary btn-sm view-profile" data-id="{{ member.id }}">
+                                    <i class="fas fa-eye me-1"></i> View Profile
+                                </button>
+                                <a href="mailto:{{ member.email }}" class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-envelope me-1"></i> Email
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-users fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No members found</h4>
+                    <p class="text-muted">Try adjusting your search or filters</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if members.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if members.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ members.previous_page_number }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for i in members.paginator.page_range %}
+                        {% if members.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if members.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ members.next_page_number }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">University Community</h2>
+                <p class="lead text-muted">
+                    Our diverse academic community
+                </p>
+            </div>
+            
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-number">5,200+</div>
+                        <div class="stat-label">Students</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-number">350+</div>
+                        <div class="stat-label">Faculty</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-number">280+</div>
+                        <div class="stat-label">Staff</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">Departments</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality
+        const roleFilter = document.getElementById('roleFilter');
+        const deptFilter = document.getElementById('deptFilter');
+        const searchInput = document.getElementById('memberSearch');
+        const resetBtn = document.getElementById('resetFilters');
+        const membersGrid = document.getElementById('membersGrid');
+        
+        function filterMembers() {
+            const selectedRole = roleFilter.value;
+            const selectedDept = deptFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            const members = membersGrid.querySelectorAll('.col-lg-4');
+            
+            members.forEach(member => {
+                const role = member.getAttribute('data-role');
+                const dept = member.getAttribute('data-dept');
+                const name = member.querySelector('.card-title').textContent.toLowerCase();
+                const email = member.querySelector('.text-muted.small:nth-child(4)').textContent.toLowerCase();
+                
+                const roleMatch = selectedRole === 'all' || role === selectedRole;
+                const deptMatch = selectedDept === 'all' || dept === selectedDept;
+                const searchMatch = name.includes(searchTerm) || email.includes(searchTerm);
+                
+                if (roleMatch && deptMatch && searchMatch) {
+                    member.style.display = 'block';
+                } else {
+                    member.style.display = 'none';
+                }
+            });
+            
+            // Check if any members are visible
+            const visibleMembers = membersGrid.querySelectorAll('.col-lg-4[style="display: block"]');
+            if (visibleMembers.length === 0) {
+                if (!membersGrid.querySelector('.no-results')) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'col-12 text-center py-5 no-results';
+                    noResults.innerHTML = `
+                        <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">No members found</h4>
+                        <p class="text-muted">Try adjusting your search or filters</p>
+                    `;
+                    membersGrid.appendChild(noResults);
+                }
+            } else {
+                const noResults = membersGrid.querySelector('.no-results');
+                if (noResults) {
+                    noResults.remove();
+                }
+            }
+        }
+        
+        // Event listeners
+        roleFilter.addEventListener('change', filterMembers);
+        deptFilter.addEventListener('change', filterMembers);
+        searchInput.addEventListener('input', filterMembers);
+        
+        resetBtn.addEventListener('click', function() {
+            roleFilter.value = 'all';
+            deptFilter.value = 'all';
+            searchInput.value = '';
+            filterMembers();
+        });
+        
+        // View profile functionality
+        const viewButtons = document.querySelectorAll('.view-profile');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const memberId = this.getAttribute('data-id');
+                // In a real application, this would redirect to member detail page
+                window.location.href = `/members/${memberId}/`;
+            });
+        });
+    });
+</script>
+{% endblock %}

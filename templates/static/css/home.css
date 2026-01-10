@@ -1,0 +1,240 @@
+/* css/home.css - Homepage specific styles */
+
+/* Hero Section */
+.hero {
+    padding: 100px 0 120px;
+    background: linear-gradient(135deg, #f5f7ff 0%, #eef1ff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.hero h1 span {
+    color: var(--primary);
+    position: relative;
+}
+
+.hero h1 span::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: rgba(67, 97, 238, 0.15);
+    z-index: -1;
+}
+
+.hero p {
+    font-size: 18px;
+    color: var(--gray);
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.hero-image {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+}
+
+.hero-image img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    transform: perspective(1000px) rotateY(-10deg);
+    transition: var(--transition);
+}
+
+.hero-image img:hover {
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Features Section */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    padding: 40px 30px;
+    text-align: center;
+    border-top: 4px solid transparent;
+}
+
+.feature-card:hover {
+    border-top-color: var(--primary);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 28px;
+    color: white;
+    box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+}
+
+.feature-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.feature-card p {
+    color: var(--gray);
+    margin-bottom: 20px;
+}
+
+.feature-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+}
+
+.feature-link:hover {
+    gap: 10px;
+}
+
+/* CTA Section */
+.cta {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+.cta-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.cta p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.cta .btn {
+    background-color: white;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.cta .btn:hover {
+    background-color: var(--light);
+}
+
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-content {
+        margin-bottom: 50px;
+    }
+    
+    .hero h1 {
+        font-size: 40px;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        padding: 80px 0 100px;
+    }
+    
+    .hero h1 {
+        font-size: 32px;
+    }
+    
+    .hero p {
+        font-size: 16px;
+    }
+    
+    .hero-stats {
+        gap: 20px;
+    }
+    
+    .stat-number {
+        font-size: 28px;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+    }
+    
+    .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

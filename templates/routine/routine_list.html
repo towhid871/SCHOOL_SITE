@@ -1,0 +1,491 @@
+{% extends "components/base.html" %}
+
+{% block title %}Class Routine - University Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Routine Header -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="fw-bold mb-3">Class Routine & Schedule</h1>
+                    <p class="lead text-muted mb-0">
+                        View and manage class schedules, exam dates, and academic calendar
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-download me-2"></i> Export Schedule
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf me-2"></i> PDF Format</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-excel me-2"></i> Excel Format</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-alt me-2"></i> iCalendar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Routine Filters -->
+    <section class="py-4">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Select Department</label>
+                            <select class="form-select" id="departmentSelect">
+                                <option value="all">All Departments</option>
+                                <option value="cs">Computer Science</option>
+                                <option value="business">Business Administration</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="arts">Arts & Humanities</option>
+                                <option value="science">Natural Sciences</option>
+                                <option value="law">Law</option>
+                                <option value="medicine">Medicine</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Select Semester</label>
+                            <select class="form-select" id="semesterSelect">
+                                <option value="all">All Semesters</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Select Day</label>
+                            <select class="form-select" id="daySelect">
+                                <option value="all">All Days</option>
+                                <option value="monday">Monday</option>
+                                <option value="tuesday">Tuesday</option>
+                                <option value="wednesday">Wednesday</option>
+                                <option value="thursday">Thursday</option>
+                                <option value="friday">Friday</option>
+                                <option value="saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-outline-primary w-100" id="applyFilters">
+                                <i class="fas fa-filter me-2"></i> Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Routine Table -->
+    <section class="py-5">
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table table-hover routine-table">
+                    <thead>
+                        <tr>
+                            <th>Time Slot</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Morning Session -->
+                        <tr class="table-light">
+                            <td colspan="7" class="fw-bold text-center">Morning Session</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">8:00 - 9:00 AM</td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Data Structures</strong><br>
+                                    <small>Room: CS-101</small><br>
+                                    <small>Prof. Smith</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Calculus I</strong><br>
+                                    <small>Room: MATH-201</small><br>
+                                    <small>Dr. Johnson</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Physics Lab</strong><br>
+                                    <small>Room: PHY-301</small><br>
+                                    <small>Dr. Williams</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>English Comp</strong><br>
+                                    <small>Room: ENG-102</small><br>
+                                    <small>Prof. Davis</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Algorithms</strong><br>
+                                    <small>Room: CS-102</small><br>
+                                    <small>Prof. Brown</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Tutorial</strong><br>
+                                    <small>Room: Various</small><br>
+                                    <small>TAs</small>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="time-slot">9:00 - 10:00 AM</td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Database Systems</strong><br>
+                                    <small>Room: CS-103</small><br>
+                                    <small>Dr. Miller</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Linear Algebra</strong><br>
+                                    <small>Room: MATH-202</small><br>
+                                    <small>Prof. Wilson</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Chemistry</strong><br>
+                                    <small>Room: CHEM-101</small><br>
+                                    <small>Dr. Moore</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Economics</strong><br>
+                                    <small>Room: ECO-101</small><br>
+                                    <small>Prof. Taylor</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Web Development</strong><br>
+                                    <small>Room: CS-104</small><br>
+                                    <small>Prof. Anderson</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Lab Session</strong><br>
+                                    <small>Room: LAB-3</small><br>
+                                    <small>Lab Assistants</small>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Break -->
+                        <tr class="table-light">
+                            <td class="time-slot">10:00 - 10:30 AM</td>
+                            <td colspan="6" class="text-center fw-bold">BREAK</td>
+                        </tr>
+                        
+                        <!-- Mid-Morning Session -->
+                        <tr class="table-light">
+                            <td colspan="7" class="fw-bold text-center">Mid-Morning Session</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">10:30 - 11:30 AM</td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Operating Systems</strong><br>
+                                    <small>Room: CS-105</small><br>
+                                    <small>Dr. Thomas</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Discrete Math</strong><br>
+                                    <small>Room: MATH-203</small><br>
+                                    <small>Prof. Jackson</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Biology</strong><br>
+                                    <small>Room: BIO-101</small><br>
+                                    <small>Dr. White</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Psychology</strong><br>
+                                    <small>Room: PSY-101</small><br>
+                                    <small>Prof. Harris</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Networking</strong><br>
+                                    <small>Room: CS-106</small><br>
+                                    <small>Prof. Martin</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Group Study</strong><br>
+                                    <small>Room: LIB-2</small><br>
+                                    <small>Self Study</small>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Lunch Break -->
+                        <tr class="table-light">
+                            <td class="time-slot">11:30 - 1:00 PM</td>
+                            <td colspan="6" class="text-center fw-bold">LUNCH BREAK</td>
+                        </tr>
+                        
+                        <!-- Afternoon Session -->
+                        <tr class="table-light">
+                            <td colspan="7" class="fw-bold text-center">Afternoon Session</td>
+                        </tr>
+                        <tr>
+                            <td class="time-slot">1:00 - 2:00 PM</td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Software Eng.</strong><br>
+                                    <small>Room: CS-107</small><br>
+                                    <small>Dr. Thompson</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Statistics</strong><br>
+                                    <small>Room: MATH-204</small><br>
+                                    <small>Prof. Garcia</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Lab Session</strong><br>
+                                    <small>Room: LAB-1</small><br>
+                                    <small>Lab Instructors</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>History</strong><br>
+                                    <small>Room: HIS-101</small><br>
+                                    <small>Prof. Martinez</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>AI & ML</strong><br>
+                                    <small>Room: CS-108</small><br>
+                                    <small>Dr. Robinson</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="class-slot">
+                                    <strong>Sports</strong><br>
+                                    <small>Field/Gym</small><br>
+                                    <small>Coaches</small>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Legend -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Color Legend:</h6>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="badge bg-primary me-2">■</span> Computer Science
+                        </div>
+                        <div class="col-md-3">
+                            <span class="badge bg-success me-2">■</span> Mathematics
+                        </div>
+                        <div class="col-md-3">
+                            <span class="badge bg-warning me-2">■</span> Sciences
+                        </div>
+                        <div class="col-md-3">
+                            <span class="badge bg-info me-2">■</span> Humanities
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Schedule -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Upcoming Examinations</h2>
+                <p class="lead text-muted">
+                    Important exam dates and schedule
+                </p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Mid-Term Examinations</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Subject</th>
+                                            <th>Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Oct 15, 2024</td>
+                                            <td>Data Structures</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 16, 2024</td>
+                                            <td>Calculus I</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 17, 2024</td>
+                                            <td>Physics</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 18, 2024</td>
+                                            <td>English Composition</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 19, 2024</td>
+                                            <td>Database Systems</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Final Examinations</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Subject</th>
+                                            <th>Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dec 10, 2024</td>
+                                            <td>Data Structures</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dec 11, 2024</td>
+                                            <td>Calculus I</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dec 12, 2024</td>
+                                            <td>Physics</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dec 13, 2024</td>
+                                            <td>English Composition</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dec 14, 2024</td>
+                                            <td>Database Systems</td>
+                                            <td>9:00 AM - 12:00 PM</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality for routine
+        const applyBtn = document.getElementById('applyFilters');
+        const deptSelect = document.getElementById('departmentSelect');
+        const semesterSelect = document.getElementById('semesterSelect');
+        const daySelect = document.getElementById('daySelect');
+        
+        applyBtn.addEventListener('click', function() {
+            const selectedDept = deptSelect.value;
+            const selectedSemester = semesterSelect.value;
+            const selectedDay = daySelect.value;
+            
+            // In a real application, this would filter the table data
+            // For now, just show a message
+            alert(`Filters applied:\nDepartment: ${selectedDept}\nSemester: ${selectedSemester}\nDay: ${selectedDay}`);
+        });
+        
+        // Add color coding to table cells
+        const classSlots = document.querySelectorAll('.class-slot');
+        classSlots.forEach(slot => {
+            const subject = slot.querySelector('strong').textContent;
+            let colorClass = '';
+            
+            if (subject.includes('Data') || subject.includes('Database') || 
+                subject.includes('Algorithms') || subject.includes('Web') || 
+                subject.includes('Operating') || subject.includes('Networking') ||
+                subject.includes('Software') || subject.includes('AI')) {
+                slot.style.backgroundColor = 'rgba(13, 110, 253, 0.1)';
+            } else if (subject.includes('Calculus') || subject.includes('Linear') || 
+                       subject.includes('Discrete') || subject.includes('Statistics')) {
+                slot.style.backgroundColor = 'rgba(25, 135, 84, 0.1)';
+            } else if (subject.includes('Physics') || subject.includes('Chemistry') || 
+                       subject.includes('Biology') || subject.includes('Lab')) {
+                slot.style.backgroundColor = 'rgba(255, 193, 7, 0.1)';
+            } else if (subject.includes('English') || subject.includes('Economics') || 
+                       subject.includes('Psychology') || subject.includes('History')) {
+                slot.style.backgroundColor = 'rgba(13, 202, 240, 0.1)';
+            } else {
+                slot.style.backgroundColor = 'rgba(248, 249, 250, 0.5)';
+            }
+        });
+    });
+</script>
+{% endblock %}

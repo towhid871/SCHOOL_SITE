@@ -1,0 +1,348 @@
+{% extends "components/base.html" %}
+
+{% block title %}University Notices - University Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Notices Header -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="fw-bold mb-3">University Notices & Announcements</h1>
+                    <p class="lead text-muted mb-0">
+                        Stay updated with important announcements, events, and university notifications
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    {% if user.is_authenticated and user.is_staff %}
+                    <a href="{% url 'add_notice' %}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i> Post New Notice
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notices Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Filters and Search -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search notices..." id="noticeSearch">
+                                <button class="btn btn-outline-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="categoryFilter">
+                                <option value="all">All Categories</option>
+                                <option value="academic">Academic</option>
+                                <option value="exam">Examinations</option>
+                                <option value="event">Events</option>
+                                <option value="holiday">Holidays</option>
+                                <option value="emergency">Emergency</option>
+                                <option value="general">General</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="priorityFilter">
+                                <option value="all">All Priorities</option>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-secondary w-100" id="resetNoticeFilters">
+                                <i class="fas fa-redo me-1"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notices List -->
+            <div class="row" id="noticesList">
+                {% for notice in notices %}
+                <div class="col-lg-6 mb-4" data-category="{{ notice.category }}" data-priority="{{ notice.priority }}">
+                    <div class="card dashboard-card notice-card {% if notice.priority == 'high' %}priority-high{% elif notice.priority == 'medium' %}priority-medium{% endif %} h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <span class="badge {% if notice.category == 'academic' %}bg-primary{% elif notice.category == 'exam' %}bg-danger{% elif notice.category == 'event' %}bg-success{% elif notice.category == 'holiday' %}bg-warning{% else %}bg-info{% endif %} mb-2">
+                                        {{ notice.get_category_display }}
+                                    </span>
+                                    {% if notice.priority == 'high' %}
+                                    <span class="badge bg-danger ms-1">High Priority</span>
+                                    {% elif notice.priority == 'medium' %}
+                                    <span class="badge bg-warning ms-1">Medium Priority</span>
+                                    {% endif %}
+                                </div>
+                                <small class="text-muted">
+                                    <i class="far fa-clock me-1"></i> {{ notice.date_posted|date:"M d, Y" }}
+                                </small>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3">{{ notice.title }}</h5>
+                            <p class="card-text text-muted mb-3">{{ notice.content|truncatewords:30 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    {% if notice.attachments %}
+                                    <small class="text-muted">
+                                        <i class="fas fa-paperclip me-1"></i> {{ notice.attachments.count }} attachment(s)
+                                    </small>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline-primary btn-sm view-notice" data-id="{{ notice.id }}">
+                                        <i class="fas fa-eye me-1"></i> Read More
+                                    </button>
+                                    {% if user.is_authenticated and user.is_staff %}
+                                    <div class="btn-group ms-2">
+                                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            <i class="fas fa-cog"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{% url 'edit_notice' notice.id %}">
+                                                <i class="fas fa-edit me-2"></i> Edit
+                                            </a></li>
+                                            <li><a class="dropdown-item text-danger" href="{% url 'delete_notice' notice.id %}">
+                                                <i class="fas fa-trash me-2"></i> Delete
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-bullhorn fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No notices available</h4>
+                    <p class="text-muted">Check back later for updates</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if notices.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if notices.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ notices.previous_page_number }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for i in notices.paginator.page_range %}
+                        {% if notices.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if notices.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ notices.next_page_number }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Important Announcements -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Important Announcements</h2>
+                <p class="lead text-muted">
+                    Critical updates that require immediate attention
+                </p>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-danger">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i> Emergency Alerts</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-danger d-flex align-items-center mb-3">
+                                <i class="fas fa-exclamation-circle fa-2x me-3"></i>
+                                <div>
+                                    <h6 class="alert-heading fw-bold">Campus Closure - Weather Emergency</h6>
+                                    <p class="mb-0">Due to severe weather conditions, the campus will be closed on December 15, 2024. All classes and activities are cancelled.</p>
+                                    <small class="text-muted">Posted: Dec 14, 2024</small>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-warning d-flex align-items-center">
+                                <i class="fas fa-info-circle fa-2x me-3"></i>
+                                <div>
+                                    <h6 class="alert-heading fw-bold">Power Maintenance Schedule</h6>
+                                    <p class="mb-0">Scheduled power maintenance on December 20, 2024, from 10:00 PM to 2:00 AM. Some services may be temporarily unavailable.</p>
+                                    <small class="text-muted">Posted: Dec 10, 2024</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Upcoming Events</h2>
+                <p class="lead text-muted">
+                    Mark your calendar for these important dates
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon mb-3">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Convocation 2024</h5>
+                            <p class="text-muted small mb-2">Date: January 25, 2025</p>
+                            <p class="text-muted small mb-3">Time: 10:00 AM - 2:00 PM</p>
+                            <p class="card-text text-muted">
+                                Annual convocation ceremony for graduating students. All faculty and graduating students must attend.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon mb-3">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Research Symposium</h5>
+                            <p class="text-muted small mb-2">Date: February 15-16, 2025</p>
+                            <p class="text-muted small mb-3">Time: 9:00 AM - 5:00 PM</p>
+                            <p class="card-text text-muted">
+                                Annual research symposium showcasing student and faculty research projects.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="card-icon mb-3">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Career Fair 2025</h5>
+                            <p class="text-muted small mb-2">Date: March 10, 2025</p>
+                            <p class="text-muted small mb-3">Time: 9:00 AM - 4:00 PM</p>
+                            <p class="card-text text-muted">
+                                Connect with top employers and explore job opportunities across various industries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality for notices
+        const noticeSearch = document.getElementById('noticeSearch');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const priorityFilter = document.getElementById('priorityFilter');
+        const resetBtn = document.getElementById('resetNoticeFilters');
+        const noticesList = document.getElementById('noticesList');
+        
+        function filterNotices() {
+            const searchTerm = noticeSearch.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedPriority = priorityFilter.value;
+            const notices = noticesList.querySelectorAll('.col-lg-6');
+            
+            notices.forEach(notice => {
+                const category = notice.getAttribute('data-category');
+                const priority = notice.getAttribute('data-priority');
+                const title = notice.querySelector('.card-title').textContent.toLowerCase();
+                const content = notice.querySelector('.card-text').textContent.toLowerCase();
+                
+                const categoryMatch = selectedCategory === 'all' || category === selectedCategory;
+                const priorityMatch = selectedPriority === 'all' || priority === selectedPriority;
+                const searchMatch = title.includes(searchTerm) || content.includes(searchTerm);
+                
+                if (categoryMatch && priorityMatch && searchMatch) {
+                    notice.style.display = 'block';
+                } else {
+                    notice.style.display = 'none';
+                }
+            });
+            
+            // Check if any notices are visible
+            const visibleNotices = noticesList.querySelectorAll('.col-lg-6[style="display: block"]');
+            if (visibleNotices.length === 0) {
+                if (!noticesList.querySelector('.no-notices')) {
+                    const noNotices = document.createElement('div');
+                    noNotices.className = 'col-12 text-center py-5 no-notices';
+                    noNotices.innerHTML = `
+                        <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">No notices found</h4>
+                        <p class="text-muted">Try adjusting your search or filters</p>
+                    `;
+                    noticesList.appendChild(noNotices);
+                }
+            } else {
+                const noNotices = noticesList.querySelector('.no-notices');
+                if (noNotices) {
+                    noNotices.remove();
+                }
+            }
+        }
+        
+        // Event listeners
+        noticeSearch.addEventListener('input', filterNotices);
+        categoryFilter.addEventListener('change', filterNotices);
+        priorityFilter.addEventListener('change', filterNotices);
+        
+        resetBtn.addEventListener('click', function() {
+            noticeSearch.value = '';
+            categoryFilter.value = 'all';
+            priorityFilter.value = 'all';
+            filterNotices();
+        });
+        
+        // View notice functionality
+        const viewButtons = document.querySelectorAll('.view-notice');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const noticeId = this.getAttribute('data-id');
+                // In a real application, this would redirect to notice detail page
+                window.location.href = `/notice/${noticeId}/`;
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,230 @@
+{% extends "components/base.html" %}
+
+{% block title %}Home - University Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Welcome to University Dashboard</h1>
+                    <p class="lead mb-4">
+                        A comprehensive digital platform connecting students, faculty, and staff. 
+                        Access academic resources, manage schedules, and stay updated with university activities.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mb-5">
+                        <a href="{% url 'member_list' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-users me-2"></i> Browse Members
+                        </a>
+                        <a href="{% url 'notice_list' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-bullhorn me-2"></i> View Notices
+                        </a>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="row text-center">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-number">5,200+</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-number">350+</div>
+                                <div class="stat-label">Faculty</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-number">42</div>
+                                <div class="stat-label">Departments</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Support</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                         alt="University Campus" class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Access Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">Quick Access</h2>
+                <p class="lead text-muted">
+                    Everything you need for academic success in one place
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card dashboard-card text-center h-100">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Class Routine</h5>
+                            <p class="card-text text-muted">
+                                View and manage your class schedules, exam dates, and academic calendar.
+                            </p>
+                            <a href="{% url 'routine_list' %}" class="btn btn-outline-primary">View Routine</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card dashboard-card text-center h-100">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Notices</h5>
+                            <p class="card-text text-muted">
+                                Stay updated with university announcements, events, and important notifications.
+                            </p>
+                            <a href="{% url 'notice_list' %}" class="btn btn-outline-primary">View Notices</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card dashboard-card text-center h-100">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Members Directory</h5>
+                            <p class="card-text text-muted">
+                                Find faculty members, staff, and student information in the university directory.
+                            </p>
+                            <a href="{% url 'member_list' %}" class="btn btn-outline-primary">Browse Members</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card dashboard-card text-center h-100">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Resources</h5>
+                            <p class="card-text text-muted">
+                                Access course materials, library resources, and academic guidelines.
+                            </p>
+                            <a href="#" class="btn btn-outline-primary">Access Resources</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Updates Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="fw-bold mb-4">Latest Notices</h3>
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <div class="list-group list-group-flush">
+                                {% for notice in latest_notices|slice:":5" %}
+                                <a href="#" class="list-group-item list-group-item-action border-0 py-3 notice-card">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ notice.title }}</h6>
+                                        <small class="text-muted">{{ notice.date_posted|date:"M d" }}</small>
+                                    </div>
+                                    <p class="mb-1 text-muted small">{{ notice.content|truncatewords:15 }}</p>
+                                    <small class="text-primary">Read more →</small>
+                                </a>
+                                {% empty %}
+                                <div class="text-center py-4">
+                                    <p class="text-muted">No notices available at the moment.</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="{% url 'notice_list' %}" class="btn btn-primary">View All Notices</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-lg-6">
+                    <h3 class="fw-bold mb-4">Upcoming Events</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item border-0 py-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Mid-Term Examinations</h6>
+                                        <small class="text-muted">Oct 15-20</small>
+                                    </div>
+                                    <p class="mb-1 text-muted small">All departments</p>
+                                </div>
+                                <div class="list-group-item border-0 py-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Cultural Festival 2024</h6>
+                                        <small class="text-muted">Nov 5-7</small>
+                                    </div>
+                                    <p class="mb-1 text-muted small">University Auditorium</p>
+                                </div>
+                                <div class="list-group-item border-0 py-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Career Fair</h6>
+                                        <small class="text-muted">Nov 25</small>
+                                    </div>
+                                    <p class="mb-1 text-muted small">Sports Complex</p>
+                                </div>
+                                <div class="list-group-item border-0 py-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Winter Vacation</h6>
+                                        <small class="text-muted">Dec 20 - Jan 5</small>
+                                    </div>
+                                    <p class="mb-1 text-muted small">University closed</p>
+                                </div>
+                                <div class="list-group-item border-0 py-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Research Symposium</h6>
+                                        <small class="text-muted">Jan 15-16</small>
+                                    </div>
+                                    <p class="mb-1 text-muted small">Science Building</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcement Banner -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-9">
+                    <h3 class="fw-bold mb-2">University Admission 2024 Now Open!</h3>
+                    <p class="mb-0">Apply online for undergraduate and graduate programs. Deadline: December 31, 2024.</p>
+                </div>
+                <div class="col-md-3 text-md-end">
+                    <a href="admission" class="btn btn-light btn-lg px-4">
+                        <i class="fas fa-arrow-right me-2"></i> Apply Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
