@@ -32,28 +32,47 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row g-3">
-                        <div class="col-md-3">
+                        <div>
                             <label class="form-label fw-bold">Filter by Role</label>
-                            <select class="form-select" id="roleFilter">
+                            <!-- <select class="form-select" id="roleFilter">
                                 <option value="all">All Roles</option>
                                 <option value="faculty">Faculty</option>
                                 <option value="staff">Staff</option>
                                 <option value="student">Students</option>
-                                <option value="admin">Administration</option>
-                            </select>
+                                <option value="alumni">Alumni</option>
+                            </select> -->
+                            <div class="d-flex flex-wrap gap-2 mb-4">
+                                <a href="{% url 'members' %}?{% if request.GET.department %}department={{request.GET.department}}{% endif %}" class="btn btn-primary {% if request.GET.type == 'all' or not request.GET.type %}active{% endif %}">All Role</a>
+                                <a href="{% url 'members' %}?type=faculty{% if request.GET.department %}&department={{request.GET.department}}{% endif %}" class="btn btn-outline-primary {% if request.GET.type == 'faculty' %}active{% endif %}">Faculty</a>
+                                <a href="{% url 'members' %}?type=staff{% if request.GET.department %}&department={{request.GET.department}}{% endif %}" class="btn btn-outline-primary {% if request.GET.type == 'staff' %}active{% endif %}">Staff</a>
+                                <a href="{% url 'members' %}?type=student{% if request.GET.department %}&department={{request.GET.department}}{% endif %}" class="btn btn-outline-primary {% if request.GET.type == 'student' %}active{% endif %}">Students</a>
+                                <a href="{% url 'members' %}?type=alumni{% if request.GET.department %}&department={{request.GET.department}}{% endif %}" class="btn btn-outline-primary {% if request.GET.type == 'alumni' %}active{% endif %}">Alumni</a>
+                            </div>
                         </div>
-                        <div class="col-md-3">
+                        <div>
                             <label class="form-label fw-bold">Filter by Department</label>
-                            <select class="form-select" id="deptFilter">
+                            <!-- <select class="form-select" id="deptFilter">
                                 <option value="all">All Departments</option>
                                 <option value="cs">Computer Science</option>
                                 <option value="business">Business</option>
                                 <option value="engineering">Engineering</option>
                                 <option value="arts">Arts & Humanities</option>
                                 <option value="science">Natural Sciences</option>
-                            </select>
+                            </select> -->
+                            <div class="d-flex flex-wrap gap-2 mb-4">
+                                <a href="{% url 'members' %}?{% if request.GET.type %}type={{ request.GET.type }}{% endif %}" class="btn btn-secondary {% if request.GET.department == 'all' or not request.GET.department %}active{% endif %}">All Departments</a>
+                                <a href="{% url 'members' %}?department=cse{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'cse' %}active{% endif %}">Computer Science and Engineering</a>
+                                <a href="{% url 'members' %}?department=ece{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'ece' %}active{% endif %}">Electronics and Communication Engineering</a>
+                                <a href="{% url 'members' %}?department=ce{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'ce' %}active{% endif %}">Civil Engineering</a>
+                                <a href="{% url 'members' %}?department=ee{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'ee' %}active{% endif %}">Electrical Engineering</a>
+                                <a href="{% url 'members' %}?department=bt{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'bt' %}active{% endif %}">Biotechnology</a>
+                                <a href="{% url 'members' %}?department=me{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'me' %}active{% endif %}">Mathematics</a>
+                                <a href="{% url 'members' %}?department=phy{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'phy' %}active{% endif %}">Physics</a>
+                                <a href="{% url 'members' %}?department=chem{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" class="btn btn-outline-secondary {% if request.GET.department == 'chem' %}active{% endif %}">Chemistry</a>
+                                <!-- Add more departments as needed -->
+                            </div>
                         </div>
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                             <label class="form-label fw-bold">Sort By</label>
                             <select class="form-select" id="sortFilter">
                                 <option value="name">Name (A-Z)</option>
@@ -65,23 +84,23 @@
                             <button class="btn btn-outline-primary w-100" id="resetFilters">
                                 <i class="fas fa-redo me-2"></i> Reset Filters
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-            </div>
+            </div> 
 
             <!-- Members Grid -->
             <div class="row g-4" id="membersGrid">
                 {% for member in members %}
-                <div class="col-lg-4 col-md-6" data-role="{{ member.role }}" data-dept="{{ member.department }}">
+                <div class="col-lg-4 col-md-6" data-role="{{ member.designation }}" data-dept="{{ member.department }}" data-name="{{member.name}}">
                     <div class="card dashboard-card h-100">
                         <div class="card-body p-4 text-center">
-                            <img src="{{ member.profile_image|default:'https://via.placeholder.com/120' }}" 
+                            <img src="{{ member.photo.url|default:'https://via.placeholder.com/120' }}" 
                                  class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;" 
                                  alt="{{ member.name }}">
                             <h5 class="card-title fw-bold mb-1">{{ member.name }}</h5>
                             <p class="text-primary mb-2">
-                                <i class="fas fa-user-tag me-1"></i> {{ member.get_role_display }}
+                                <i class="fas fa-user-tag me-1"></i> {{ member.designation }}
                             </p>
                             <p class="text-muted small mb-2">
                                 <i class="fas fa-graduation-cap me-1"></i> {{ member.department }}
@@ -143,6 +162,7 @@
     </section>
 
     <!-- Statistics -->
+    
     <section class="py-5 bg-light">
         <div class="container">
             <div class="text-center mb-5">
@@ -155,8 +175,8 @@
             <div class="row text-center">
                 <div class="col-md-3 col-6 mb-4">
                     <div class="stat-card">
-                        <div class="stat-number">5,200+</div>
-                        <div class="stat-label">Students</div>
+                        <div class="stat-number">{{ members.count }}</div>
+                        <div class="stat-label">Members</div>
                     </div>
                 </div>
                 <div class="col-md-3 col-6 mb-4">
@@ -173,16 +193,18 @@
                 </div>
                 <div class="col-md-3 col-6 mb-4">
                     <div class="stat-card">
-                        <div class="stat-number">42</div>
+                        <div class="stat-number">12+</div>
                         <div class="stat-label">Departments</div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </section>
+    
 {% endblock %}
 
-{% block extra_js %}
+<!-- {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Filter functionality
@@ -259,4 +281,4 @@
         });
     });
 </script>
-{% endblock %}
+{% endblock %} -->

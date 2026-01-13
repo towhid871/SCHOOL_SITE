@@ -21,7 +21,7 @@ urlpatterns = [
     path('members/', include('members.urls')),
     path('routine/', include('routine.urls')),
     path('notice/', include('notice.urls')),
-    path('admission/', views.admission, name='admission')
+    path('admission/', views.admission, name='admission'),
 ]
 
     # path('', admin.site.urls),  # Redirect root URL to admin)

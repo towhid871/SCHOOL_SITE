@@ -82,6 +82,14 @@
             font-size: 1.5rem;
             margin: 0 auto 20px;
         }
+
+        .contact-icon {
+            margin: 0;                 /* auto REMOVE */
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+        }
+
         
         .stat-card {
             background: white;
@@ -235,7 +243,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if 'members' in request.path %}active{% endif %}" href="{% url 'member_list' %}">
+                        <a class="nav-link {% if 'members' in request.path %}active{% endif %}" href="{% url 'members' %}">
                             <i class="fas fa-users me-1"></i> Members
                         </a>
                     </li>
@@ -322,7 +330,7 @@
                     <ul class="list-unstyled footer-links">
                         <li class="mb-2"><a href="{% url 'home' %}">Home</a></li>
                         <li class="mb-2"><a href="{% url 'about' %}">About University</a></li>
-                        <li class="mb-2"><a href="{% url 'member_list' %}">Faculty Directory</a></li>
+                        <li class="mb-2"><a href="{% url 'members' %}">Faculty Directory</a></li>
                         <li class="mb-2"><a href="{% url 'routine_list' %}">Academic Calendar</a></li>
                         <li class="mb-2"><a href="{% url 'notice_list' %}">Latest Notices</a></li>
                     </ul>
