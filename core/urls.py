@@ -3,25 +3,28 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView
-from . import views
+from .views import(
+    HomePageView,
+    AboutPageView,
+    ContactPageView,
+    AdmissionPageView,
+    
+)
 
 
 urlpatterns = [
+    
     path('admin/', admin.site.urls),
 
-    path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
+    path('', HomePageView.as_view(), name='home'),
+    path('about/', AboutPageView.as_view(), name='about'),
+    path('contact/', ContactPageView.as_view(), name='contact'),
+    path('admission/', AdmissionPageView.as_view(), name='admission'),
 
-
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
     path('members/', include('members.urls')),
     path('routine/', include('routine.urls')),
     path('notice/', include('notice.urls')),
-    path('admission/', views.admission, name='admission'),
+
 ]
 
     # path('', admin.site.urls),  # Redirect root URL to admin)

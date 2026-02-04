@@ -31,6 +31,12 @@ class MemberListView(ListView):
 
     #     return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Members | School Management System'
+        context['page'] = 'members'
+        return context
+
     def get_queryset(self):
         queryset = Member.objects.all()
 

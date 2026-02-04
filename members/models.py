@@ -1,3 +1,4 @@
+from enum import member
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -55,4 +56,5 @@ class Member(models.Model):
             raise ValidationError("Designation required for facutlties and staff members.")
         if self.member_type in ['alumni'] and not self.passing_year:
             raise ValidationError("Passsing year required for alumni members.")
+
 
